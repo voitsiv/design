@@ -1,4 +1,4 @@
-// 06 — Open question: where should student <-> provider communication live so it survives switching?
+// 06 — Open question: where should student <-> provider communication live so it shows in every location?
 const { C, text, path, arrow, xh, doll, staff } = require('./lib');
 
 function mailbox(x, y, label, color = C.ink, dash = '') {
@@ -11,45 +11,68 @@ function mailbox(x, y, label, color = C.ink, dash = '') {
 const plane = (x, y, color = C.ink) =>
   path(`M${x},${y} L${x + 60},${y - 22} L${x + 18},${y + 10} Z M${x + 18},${y + 10} L${x + 22},${y + 28} L${x + 30},${y + 5}`, { color, fill: '#fff', w: 2.5 });
 
+// The same conversation, hung from the bridge into a location
+function convo(cx, top, o = {}) {
+  const { faded = false } = o;
+  const ink = faded ? C.grey : C.ink, blue = faded ? C.grey : C.blue, dash = faded ? '8 8' : '';
+  let g = path(`M${cx},445 L${cx},${top}`, { w: 2.5, color: ink, dash });
+  g += path(`M${cx - 85},${top} L${cx + 85},${top} L${cx + 85},${top + 100} L${cx - 85},${top + 100} Z`, { fill: '#fff', color: ink, dash });
+  g += `<ellipse cx="${cx - 25}" cy="${top + 28}" rx="48" ry="17" fill="#fff" stroke="${ink}" stroke-width="2.5"/>`;
+  g += text(cx - 25, top + 37, 'help?', { size: 26, color: ink });
+  g += `<ellipse cx="${cx + 20}" cy="${top + 70}" rx="56" ry="17" fill="#fff" stroke="${blue}" stroke-width="2.5"/>`;
+  g += text(cx + 20, top + 79, 'here’s how', { size: 26, color: blue });
+  return g;
+}
+
+function wall(x) {
+  return path(`M${x - 15},600 L${x - 15},900 M${x + 15},600 L${x + 15},900`, { color: C.red, w: 3, dash: '10 9' }) +
+    text(x, 1000, 'data stays separate', { size: 30, color: C.red });
+}
+
 let s = '';
 
-// Locations on the ground
-s += path('M110,640 L110,880 L560,880 L560,640');
-s += doll(460, 875, 1.2);
-s += path('M160,700 L240,700 L240,790 L160,790 Z M175,725 L225,725 M175,750 L225,750', { w: 2.5 });
-s += text(335, 935, 'Real location', { size: 40, weight: 700 });
-
-s += path('M600,620 L600,900 M640,620 L640,900', { color: C.red, w: 3, dash: '10 9' });
-s += text(620, 960, 'data stays separate', { size: 32, color: C.red });
-
-s += path('M680,760 L1180,760 L1155,880 L705,880 Z', { fill: '#fff' });
-s += path('M710,795 C760,780 800,805 850,790 C910,775 960,805 1020,790 C1080,776 1120,800 1150,790', { w: 2, color: C.grey });
-s += doll(1080, 875, 1.1, { copy: true });
-s += text(930, 935, 'Training sandbox', { size: 40, weight: 700 });
-
-s += path('M1230,790 L1560,790 L1540,880 L1250,880 Z', { color: C.grey, dash: '9 9' });
-s += text(1395, 935, 'future sandboxes', { size: 34, color: C.blue });
-
 // The bridge above every location
-s += path('M110,420 L1600,420 L1600,445 L110,445 Z', { fill: '#fff' });
-s += path('M335,445 L335,640 M930,445 L930,760', { w: 2.5 });
-s += path('M1395,445 L1395,790', { w: 2.5, color: C.grey, dash: '8 8' });
-s += text(130, 395, 'reachable from every location', { size: 34, color: C.blue, anchor: 'start' });
+s += path('M90,420 L1600,420 L1600,445 L90,445 Z', { fill: '#fff' });
+s += text(100, 395, 'same conversation in every location', { size: 34, color: C.blue, anchor: 'start' });
 
 // Candidate homes for the conversation
+s += text(855, 150, 'which one fits?', { size: 42, color: C.red, weight: 700 });
 s += mailbox(560, 420, 'Tasks?');
 s += mailbox(855, 420, 'Messages?');
 s += mailbox(1150, 420, 'something else?', C.grey, '8 8');
 
-// Xiaohei (the student) holds up a question, deciding where it goes
-s += xh(880, 870, 1, { cap: true, look: -3, arms: [[850, 790, 820, 700, -10], [912, 800, 940, 830, 6]] });
-s += plane(770, 690);
-s += path('M800,665 C760,600 700,520 640,410', { color: C.orange, w: 3, dash: '6 10' });
-s += path('M820,660 C840,600 850,520 855,410', { color: C.orange, w: 3, dash: '6 10' });
-s += path('M840,665 C930,590 1060,520 1130,410', { color: C.orange, w: 3, dash: '6 10' });
-s += text(1210, 640, 'which one fits?', { size: 40, color: C.red, weight: 700 });
+// Real location — the student is here right now
+s += path('M90,600 L90,880 L520,880 L520,600');
+s += convo(215, 620);
+s += xh(360, 872, 0.85, { cap: true, look: -5, arms: [[335, 800, 300, 730, -8]] });
+s += doll(465, 875, 1.1);
+s += text(305, 945, 'Real location', { size: 40, weight: 700 });
 
-// Provider on the far side — two-way
+s += wall(570);
+
+// Training sandbox — same conversation waiting
+s += path('M620,770 L1080,770 L1058,880 L642,880 Z', { fill: '#fff' });
+s += path('M650,805 C700,790 740,815 790,800 C850,785 900,815 960,800 C1010,788 1040,805 1050,800', { w: 2, color: C.grey });
+s += convo(850, 640);
+s += xh(730, 872, 0.75, { ghost: true, cap: true });
+s += doll(990, 872, 1, { copy: true });
+s += text(850, 945, 'Training sandbox', { size: 40, weight: 700 });
+
+s += wall(1130);
+
+// Future sandboxes — same conversation there too
+s += path('M1180,790 L1540,790 L1520,880 L1200,880 Z', { color: C.grey, dash: '9 9' });
+s += convo(1360, 660, { faded: true });
+s += xh(1265, 872, 0.65, { ghost: true, cap: true });
+s += text(1360, 945, 'future sandboxes', { size: 36, color: C.blue });
+
+// The student moves; the conversation doesn't
+s += arrow('M430,760 C480,700 640,700 690,770');
+s += arrow('M1045,830 C1085,730 1185,730 1225,825');
+s += text(570, 580, 'switch', { size: 34, color: C.orange });
+s += text(1130, 580, 'switch', { size: 34, color: C.orange });
+
+// Provider on the far side — two-way, never enters a location
 s += staff(1780, 880, 1.1);
 s += arrow('M1735,720 C1700,560 1660,470 1610,440', C.orange);
 s += arrow('M1615,470 C1650,560 1690,640 1720,700', C.orange);
