@@ -55,14 +55,14 @@ s += path('M620,770 L1080,770 L1058,880 L642,880 Z', { fill: '#fff' });
 s += path('M650,805 C700,790 740,815 790,800 C850,785 900,815 960,800 C1010,788 1040,805 1050,800', { w: 2, color: C.grey });
 s += convo(850, 640);
 s += doll(990, 872, 1, { copy: true });
-s += text(850, 945, 'Training sandbox', { size: 40, weight: 700 });
+s += text(850, 945, 'Practice Location', { size: 40, weight: 700 });
 
 s += wall(1130);
 
 // Future sandboxes — same conversation there too
 s += path('M1180,790 L1540,790 L1520,880 L1200,880 Z', { color: C.grey, dash: '9 9' });
 s += convo(1360, 660, { faded: true });
-s += text(1360, 945, 'future training sandboxes', { size: 36, color: C.blue });
+s += text(1360, 945, 'future practice locations', { size: 36, color: C.blue });
 
 // The student moves; the conversation doesn't
 s += arrow('M430,760 C480,700 640,700 690,770');
@@ -82,7 +82,7 @@ s += plane(1640, 360, C.blue);
 // The requirement to investigate
 s += path('M1370,40 L1880,40 L1880,250 L1370,250 Z', { fill: '#fff', w: 3 });
 s += text(1625, 92, 'Production actions are disabled', { size: 38 });
-s += text(1625, 132, 'in training sandboxes;', { size: 38 });
+s += text(1625, 132, 'in practice locations;', { size: 38 });
 s += text(1625, 185, 'Academy communication', { size: 40, color: C.red, weight: 700 });
 s += text(1625, 225, 'must remain available.', { size: 40, color: C.red, weight: 700 });
 
