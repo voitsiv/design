@@ -33,18 +33,18 @@ let s = '';
 
 // The bridge above every location
 s += path('M90,420 L1600,420 L1600,445 L90,445 Z', { fill: '#fff' });
-s += text(100, 395, 'same conversation in every location', { size: 34, color: C.blue, anchor: 'start' });
+s += text(100, 350, 'One conversation, accessible', { size: 34, color: C.blue, anchor: 'start' });
+s += text(100, 392, 'regardless of the selected location', { size: 34, color: C.blue, anchor: 'start' });
 
 // Candidate homes for the conversation
-s += text(855, 150, 'which one fits?', { size: 42, color: C.red, weight: 700 });
-s += mailbox(560, 420, 'Tasks?');
-s += mailbox(855, 420, 'Messages?');
-s += mailbox(1150, 420, 'something else?', C.grey, '8 8');
+s += text(935, 150, 'which one fits?', { size: 42, color: C.red, weight: 700 });
+s += mailbox(660, 420, 'Tasks?');
+s += mailbox(935, 420, 'Messages?');
+s += mailbox(1180, 420, 'something else?', C.grey, '8 8');
 
 // Real location — the student is here right now
 s += path('M90,600 L90,880 L520,880 L520,600');
 s += convo(215, 620);
-s += xh(360, 872, 0.85, { cap: true, look: -5, arms: [[335, 800, 300, 730, -8]] });
 s += doll(465, 875, 1.1);
 s += text(305, 945, 'Real location', { size: 40, weight: 700 });
 
@@ -54,7 +54,6 @@ s += wall(570);
 s += path('M620,770 L1080,770 L1058,880 L642,880 Z', { fill: '#fff' });
 s += path('M650,805 C700,790 740,815 790,800 C850,785 900,815 960,800 C1010,788 1040,805 1050,800', { w: 2, color: C.grey });
 s += convo(850, 640);
-s += xh(730, 872, 0.75, { ghost: true, cap: true });
 s += doll(990, 872, 1, { copy: true });
 s += text(850, 945, 'Training sandbox', { size: 40, weight: 700 });
 
@@ -63,8 +62,7 @@ s += wall(1130);
 // Future sandboxes — same conversation there too
 s += path('M1180,790 L1540,790 L1520,880 L1200,880 Z', { color: C.grey, dash: '9 9' });
 s += convo(1360, 660, { faded: true });
-s += xh(1265, 872, 0.65, { ghost: true, cap: true });
-s += text(1360, 945, 'future sandboxes', { size: 36, color: C.blue });
+s += text(1360, 945, 'future training sandboxes', { size: 36, color: C.blue });
 
 // The student moves; the conversation doesn't
 s += arrow('M430,760 C480,700 640,700 690,770');
@@ -80,10 +78,12 @@ s += text(1780, 580, 'Academy', { size: 36, weight: 700 });
 s += text(1780, 616, 'Provider', { size: 36, weight: 700 });
 s += plane(1640, 360, C.blue);
 
-// What any option must do
-s += text(1330, 70, '✓ two-way: ask for help / reach out', { size: 34, color: C.blue, anchor: 'start' });
-s += text(1330, 115, '✓ stays visible after switching', { size: 34, color: C.blue, anchor: 'start' });
-s += text(1330, 160, '✓ keeps training ≠ production', { size: 34, color: C.blue, anchor: 'start' });
-s += text(1330, 205, '✓ reuses what BioInsights has', { size: 34, color: C.blue, anchor: 'start' });
+
+// The requirement to investigate
+s += path('M1370,40 L1880,40 L1880,250 L1370,250 Z', { fill: '#fff', w: 3 });
+s += text(1625, 92, 'Production actions are disabled', { size: 38 });
+s += text(1625, 132, 'in training sandboxes;', { size: 38 });
+s += text(1625, 185, 'Academy communication', { size: 40, color: C.red, weight: 700 });
+s += text(1625, 225, 'must remain available.', { size: 40, color: C.red, weight: 700 });
 
 module.exports = s;
